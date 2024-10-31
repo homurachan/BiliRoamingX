@@ -37,7 +37,7 @@ object Accounts {
     private var accountInfoCache: AccountInfo? = null
 
     @JvmStatic
-    var userBlocked = cachePrefs.getBoolean("user_blocked_$mid", false)
+    var userBlocked = false
         private set
 
     @JvmStatic
@@ -185,7 +185,7 @@ object Accounts {
         require(api.startsWith(StringDecoder.decode("JULvAwoUgmc").toString(Charsets.UTF_8)))
         val info = HttpClient.get("$api/$mid")?.data<BlacklistInfo>() ?: return@runCatching
         val blockedKey = "user_blocked_$mid"
-        if (info.isBlacklist && info.banUntil.time > current) Utils.runOnMainThread {
+        if (false) Utils.runOnMainThread {
             cachePrefs.edit { putBoolean(blockedKey, true) }
             userBlocked = true
             val banUntil = info.banUntil.format()
